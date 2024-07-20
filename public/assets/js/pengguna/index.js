@@ -1,5 +1,23 @@
 $(document).ready(function(){
 
+    $('.role').select2({
+        dropdownParent: $('#modal_pengguna'),
+        allowClear: true,
+        placeholder: 'Pilih'
+    });
+
+    $('.mitra_id').select2({
+        dropdownParent: $('#modal_pengguna'),
+        allowClear: true,
+        placeholder: 'Pilih'
+    });
+
+    $('.edit_role').select2({
+        dropdownParent: $('#modal_edit_pengguna'),
+        allowClear: true,
+        placeholder: 'Pilih'
+    });
+
     var table = $('.datatable-responsive').DataTable({
         processing:true,
         serverSide:true,
@@ -12,6 +30,7 @@ $(document).ready(function(){
             {data:'name'},
             {data:'email'},
             {data:'handphone'},
+            {data:'mitra.nama_perusahaan'},
             {data:'role'},
             {data: 'action', name: 'action', className: 'text-center',orderable: false, searchable: false, width: 220}
         ],
@@ -28,17 +47,11 @@ $(document).ready(function(){
     //add olt
     $(document).on('click','.add_pengguna', function(e){
         e.preventDefault();
-        $('#modal_marketer').modal('show');   
+        $('#modal_pengguna').modal('show');   
 
     })
 
-    $('.role').select2({
-        dropdownParent: $('#modal_marketer'),
-        allowClear: true,
-        placeholder: 'Pilih'
-    });
-
-    $('.edit_role').select2();
+    
 
     var marketers = $('#form-marketer')[0];
     $('#save').on('click',function(e){
@@ -94,7 +107,7 @@ $(document).ready(function(){
                     $('#edit_nama_pengguna').val(response.users.name);
                     $('#edit_email_pengguna').val(response.users.email);
                     $('#edit_hp_pengguna').val(response.users.handphone);
-                    $('#edit_role').val(response.role.roles.name);
+                    $('#edit_role').val(response.role.name).change();
                 }
             }
         })

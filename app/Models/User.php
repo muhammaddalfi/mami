@@ -43,9 +43,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function daily()
+    public function mitra()
     {
-        return $this->hasMany(Daily::class, 'user_id');
+         return $this->belongsTo(Perusahaans::class, 'mitra_id');
     }
 }

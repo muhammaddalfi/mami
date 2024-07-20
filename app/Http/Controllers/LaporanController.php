@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Daily;
+use App\Models\Incidents;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -14,7 +15,7 @@ class LaporanController extends Controller
 {
     //
     public function index(){
-        $data['sales'] = User::whereNotNull('id_leader')->get();
+        $data['incident'] = Incidents::all();
         return view('laporan.index',$data);
     }
 

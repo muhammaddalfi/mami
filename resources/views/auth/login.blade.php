@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Monster - Monitoring Sales Cluster</title>
+    <title>MAMI - Material Monitoring Incident BAST</title>
 
     <!-- Global stylesheets -->
     <link href="{{ asset('assets/fonts/inter/inter.css') }}" rel="stylesheet" type="text/css">
@@ -45,8 +45,8 @@
                                 <div class="d-inline-flex align-items-center justify-content-center mb-4 mt-2">
                                     <img src="../../../assets/images/logo_icon.svg" class="h-48px" alt="">
                                 </div>
-                                <h5 class="mb-0">Monster</h5>
-                                <span class="d-block text-muted">Monitoring Sales Untuk Cluster</span>
+                                <h5 class="mb-0">MAMI</h5>
+                                <span class="d-block text-muted"> Material Monitoring Incident BAST</span>
                             </div>
 
                             <div class="mb-3">
@@ -54,7 +54,7 @@
                                 <div class="form-control-feedback form-control-feedback-start">
                                     <input type="text" id="email" name="email" value="{{ old('email') }}"
                                         class="form-control" value="{{ old('email') }}" required
-                                        placeholder="halo@monster.id">
+                                        placeholder="halo@mobase.id">
                                     <div class="form-control-feedback-icon">
                                         <i class="ph-user-circle text-muted"></i>
                                     </div>

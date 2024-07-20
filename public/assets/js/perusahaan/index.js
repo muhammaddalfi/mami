@@ -4,13 +4,12 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         responsive: true,
-        ajax: '/activity/fetch',
+        ajax: '/perusahaan/fetch',
         autoWidth: false,
         
         columns:[
             {data: 'DT_RowIndex', name: 'DT_RowIndex',orderable: false, searchable: false },
-            {data:'jenis_material'},
-            {data:'harga_material'},
+            {data:'nama_perusahaan'},
             {data: 'action', name: 'action', className: 'text-center',orderable: false, searchable: false, width: 220}
         ],
         order: [[ 0, "desc" ]],
@@ -24,20 +23,20 @@ $(document).ready(function(){
     });
 
     //add activity
-    $(document).on('click','.add_activity', function(e){
+    $(document).on('click','.add_perusahaan', function(e){
         e.preventDefault();
-        $('#modal_activity').modal('show');   
+        $('#modal_perusahaan').modal('show');   
 
     })
 
 
-    var activity = $('#form-activity')[0];
+    var perusahaan = $('#form-perusahaan')[0];
     $('#save').on('click',function(e){
         e.preventDefault();
-        var form  = new FormData(activity);
+        var form  = new FormData(perusahaan);
         // console.log(data);
         $.ajax({
-            url: '/activity/store',
+            url: '/perusahaan/store',
             method:'POST',
             data: form,
             processData: false,
@@ -47,7 +46,7 @@ $(document).ready(function(){
                 if(response.status == 400)
                 {
                     console.log(response);
-                    $('#error_jenis_kegiatan').html(response.errors.jenis_kegiatan);
+                    $('#error_nama_perusahaan').html(response.errors.nama_perusahaan);
                   
                 }else{
                    console.log(response); 
@@ -58,8 +57,8 @@ $(document).ready(function(){
                     icon: 'success'
                     });
 
-                    $('#modal_activity').modal('hide');
-                    $("#form-activity")[0].reset();
+                    $('#modal_perusahaan').modal('hide');
+                    $("#form-perusahaan")[0].reset();
                 }
             }
         })
@@ -70,16 +69,16 @@ $(document).ready(function(){
     $(document).on('click','.edit', function(e){
         e.preventDefault();
         var id = $(this).data('id');
-        $('#modal_edit_activity').modal('show');
+        $('#modal_edit_perusahaan').modal('show');
         $.ajax({
             type:"GET",
-            url:"/activity/edit/" + id,
+            url:"/perusahaan/edit/" + id,
             success: function(response){
                 if(response.status == 404){
                     console.log("Data not found");
                 }else{
-                    $('#id_kegiatan').val(response.activity.id);
-                    $('#edit_jenis_kegiatan').val(response.activity.jenis_kegiatan);
+                    $('#id_perusahaan').val(response.perusahaan.id);
+                    $('#edit_nama_perusahaan').val(response.perusahaan.nama_perusahaan);
                 }
             }
         })
@@ -87,10 +86,11 @@ $(document).ready(function(){
 
    $(document).on('click', '.save', function(e){
         e.preventDefault();
-        var id = $('#id_kegiatan').val();
+        var id = $('#id_perusahaan').val();
         var data = {
-            'edit_jenis_kegiatan': $('#edit_jenis_kegiatan').val(),
+            'edit_nama_perusahaan': $('#edit_nama_perusahaan').val()
         }
+
 
         $.ajaxSetup({
             headers: {
@@ -100,7 +100,7 @@ $(document).ready(function(){
 
         $.ajax({
             type:"PUT",
-            url:"/activity/update/"+ id,
+            url:"/perusahaan/update/"+ id,
             data: data,
             dataType:"json",
             success: function(response){
@@ -110,7 +110,7 @@ $(document).ready(function(){
                     text: 'Data berhasil disimpan!',
                     icon: 'success'
                 });
-                    $('#modal_edit_activity').modal('hide');
+                    $('#modal_edit_perusahaan').modal('hide');
             
             }
         })
@@ -142,7 +142,7 @@ $(document).ready(function(){
             if (result.isConfirmed) {
                 $.ajax({
                     type: "DELETE",
-                    url: "/activity/delete/" + id,
+                    url: "/perusahaan/delete/" + id,
                    
                     success: function(){
                         table.draw();

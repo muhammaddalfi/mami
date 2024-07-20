@@ -1,16 +1,28 @@
 $(document).ready(function(){
+    $('.mitra_id').select2({
+        dropdownParent: $('#modal_basecamp'),
+        allowClear: true,
+        placeholder: 'Pilih'
+    });
+
+    $('.edit_mitra_id').select2({
+        dropdownParent: $('#modal_basecamp'),
+        allowClear: true,
+        placeholder: 'Pilih'
+    });
+
 
     var table = $('.datatable-responsive').DataTable({
         processing:true,
         serverSide:true,
         responsive: true,
-        ajax: '/activity/fetch',
+        ajax: '/basecamp/fetch',
         autoWidth: false,
         
         columns:[
             {data: 'DT_RowIndex', name: 'DT_RowIndex',orderable: false, searchable: false },
-            {data:'jenis_material'},
-            {data:'harga_material'},
+            {data:'nama_basecamp'},
+            {data:'perusahaan.nama_perusahaan'},
             {data: 'action', name: 'action', className: 'text-center',orderable: false, searchable: false, width: 220}
         ],
         order: [[ 0, "desc" ]],
@@ -24,20 +36,20 @@ $(document).ready(function(){
     });
 
     //add activity
-    $(document).on('click','.add_activity', function(e){
+    $(document).on('click','.add_basecamp', function(e){
         e.preventDefault();
-        $('#modal_activity').modal('show');   
+        $('#modal_basecamp').modal('show');   
 
     })
 
 
-    var activity = $('#form-activity')[0];
+    var basecamp = $('#form-basecamp')[0];
     $('#save').on('click',function(e){
         e.preventDefault();
-        var form  = new FormData(activity);
+        var form  = new FormData(basecamp);
         // console.log(data);
         $.ajax({
-            url: '/activity/store',
+            url: '/basecamp/store',
             method:'POST',
             data: form,
             processData: false,
@@ -47,7 +59,7 @@ $(document).ready(function(){
                 if(response.status == 400)
                 {
                     console.log(response);
-                    $('#error_jenis_kegiatan').html(response.errors.jenis_kegiatan);
+                    $('#error_nama_basecamp').html(response.errors.nama_basecamp);
                   
                 }else{
                    console.log(response); 
@@ -58,8 +70,8 @@ $(document).ready(function(){
                     icon: 'success'
                     });
 
-                    $('#modal_activity').modal('hide');
-                    $("#form-activity")[0].reset();
+                    $('#modal_basecamp').modal('hide');
+                    $("#form-basecamp")[0].reset();
                 }
             }
         })
@@ -70,16 +82,17 @@ $(document).ready(function(){
     $(document).on('click','.edit', function(e){
         e.preventDefault();
         var id = $(this).data('id');
-        $('#modal_edit_activity').modal('show');
+        $('#modal_edit_basecamp').modal('show');
         $.ajax({
             type:"GET",
-            url:"/activity/edit/" + id,
+            url:"/basecamp/edit/" + id,
             success: function(response){
                 if(response.status == 404){
                     console.log("Data not found");
                 }else{
-                    $('#id_kegiatan').val(response.activity.id);
-                    $('#edit_jenis_kegiatan').val(response.activity.jenis_kegiatan);
+                    $('#id_basecamp').val(response.basecamp.id);
+                    $('#edit_nama_basecamp').val(response.basecamp.nama_basecamp);
+                    $('#edit_mitra_id').val(response.basecamp.mitra_id).change();
                 }
             }
         })
@@ -87,10 +100,12 @@ $(document).ready(function(){
 
    $(document).on('click', '.save', function(e){
         e.preventDefault();
-        var id = $('#id_kegiatan').val();
+        var id = $('#id_basecamp').val();
         var data = {
-            'edit_jenis_kegiatan': $('#edit_jenis_kegiatan').val(),
+            'edit_nama_basecamp': $('#edit_nama_basecamp').val(),
+            'edit_mitra_id': $('#edit_nama_basecamp').val()
         }
+
 
         $.ajaxSetup({
             headers: {
@@ -100,7 +115,7 @@ $(document).ready(function(){
 
         $.ajax({
             type:"PUT",
-            url:"/activity/update/"+ id,
+            url:"/basecamp/update/"+ id,
             data: data,
             dataType:"json",
             success: function(response){
@@ -110,7 +125,7 @@ $(document).ready(function(){
                     text: 'Data berhasil disimpan!',
                     icon: 'success'
                 });
-                    $('#modal_edit_activity').modal('hide');
+                    $('#modal_edit_basecamp').modal('hide');
             
             }
         })
@@ -142,7 +157,7 @@ $(document).ready(function(){
             if (result.isConfirmed) {
                 $.ajax({
                     type: "DELETE",
-                    url: "/activity/delete/" + id,
+                    url: "/basecamp/delete/" + id,
                    
                     success: function(){
                         table.draw();

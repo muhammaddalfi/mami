@@ -3,6 +3,8 @@
 namespace App\Exports;
 
 use App\Models\Baddeb;
+use App\Models\Incidents;
+use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -17,29 +19,33 @@ class BaddebExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Nama Pelanggan',
-            'ID Pelanggan',
-            'Layanan',
-            'Petugas Collection',
-            'Alasan',
-            'Tanggal Follow Up'
+            'Tanggal Incident',
+            'No Incident',
+            'Nama Incident',
+            'Lokasi',
+            'Basecamp',
+            'Mitra',
+            'Jenis Material',
+            'Jumlah Material'
         ];
     }
 
     public function map($row): array
     {
         return [
-            $row->nama_pelanggan,
-            $row->id_pln,
-            $row->layanan,
+            $row->tgl_incident,
+            $row->no_incident,
+            $row->nama_incident,
+            $row->lokasi,
+            $row->basecamp->nama_basecamp,
             $row->user->name,
-            $row->kategori->name ?? '',
-            $row->created_at->format('d-m-Y')
+            $row->material->jenis_material,
+            $row->jumlah_material
         ];
     }
 
     public function collection()
     {
-        return Baddeb::all();
+        return Incidents::with(['user','basecamp','mitra', 'material'])->get();
     }
 }

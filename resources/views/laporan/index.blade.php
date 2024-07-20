@@ -6,28 +6,43 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('laporan.search') }}" method="POST">
-                            @csrf
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div id="daterange" class="input-group">
-                                        <span class="input-group-text"><i class="ph-calendar"></i></span>
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <form action="{{ route('laporan.search') }}" method="POST">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div id="daterange" class="input-group">
+                                                <span class="input-group-text"><i class="ph-calendar"></i></span>
+                                            </div>
+                                        </div>
 
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                            @can('Export permission')
+                                <div class="col-lg-8">
+                                    <a href='{{ route('export.raw') }}' class="btn btn-light"><i
+                                            class="ph-microsoft-excel-logo me-2"></i>Export
+                                        Data</a>
+                                </div>
+                            @endcan
+
+                        </div>
+
+
                     </div>
-                    <table class="table datatable-laporan">
+                    <table class="table datatable-laporan-baddeb">
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>ID</th>
+                                <th>Incident</th>
                                 <th>Tanggal</th>
-                                <th>Pelaksana</th>
-                                <th>Nama OLT</th>
-                                <th>Kegiatan</th>
-                                <th>Gambar</th>
-                                <th class="text-center">Aksi</th>
+                                <th>Material</th>
+                                <th>Basecamp</th>
+                                <th>Perusahaan</th>
+                                <th class="text-center">Lihat Data</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,7 +57,7 @@
 
         <!-- /basic responsive configuration -->
     </div>
-    @include('rooms.modals.view')
+    @include('laporan.modals.view')
 @endsection
 @push('js_page')
     <script src="{{ asset('assets/js/vendor/tables/datatables/datatables.min.js') }}"></script>
@@ -53,6 +68,7 @@
     <script src="{{ asset('assets/js/moment/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/pickers/daterangepicker.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/pickers/datepicker.min.js') }}"></script>
-    <script src="{{ asset('assets/js/laporan/index.js') }}"></script>
+    <script src="{{ asset('assets/js/vendor/tables/datatables/extensions/buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/js/laporan/laporan.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 @endpush

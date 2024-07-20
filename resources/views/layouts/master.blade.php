@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> --}}
-    <title>Monster - Monitoring Sales Untuk Cluster</title>
+    <title>MAMI - Material Monitoring Incident BAST</title>
 
     <!-- Global stylesheets -->
     <link href="{{ asset('assets/fonts/inter/inter.css') }}" rel="stylesheet" type="text/css">
@@ -16,13 +16,6 @@
     <!-- /global stylesheets -->
 
 
-    <style>
-        #map {
-            height: 300px;
-        }
-    </style>
-
-    <link href="{{ asset('assets/js/vendor/leaflet/css/leaflet.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/loading_ajax/loading.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/sweet_alert/sweetalert.css') }}" rel="stylesheet">
     <!-- Theme JS files -->

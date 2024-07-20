@@ -4,7 +4,7 @@ $(document).ready(function(){
         processing:true,
         serverSide:true,
         responsive: true,
-        ajax: '/activity/fetch',
+        ajax: '/material/fetch',
         autoWidth: false,
         
         columns:[
@@ -24,20 +24,20 @@ $(document).ready(function(){
     });
 
     //add activity
-    $(document).on('click','.add_activity', function(e){
+    $(document).on('click','.add_material', function(e){
         e.preventDefault();
-        $('#modal_activity').modal('show');   
+        $('#modal_material').modal('show');   
 
     })
 
 
-    var activity = $('#form-activity')[0];
+    var material = $('#form-material')[0];
     $('#save').on('click',function(e){
         e.preventDefault();
-        var form  = new FormData(activity);
+        var form  = new FormData(material);
         // console.log(data);
         $.ajax({
-            url: '/activity/store',
+            url: '/material/store',
             method:'POST',
             data: form,
             processData: false,
@@ -47,7 +47,8 @@ $(document).ready(function(){
                 if(response.status == 400)
                 {
                     console.log(response);
-                    $('#error_jenis_kegiatan').html(response.errors.jenis_kegiatan);
+                    $('#error_jenis_material').html(response.errors.jenis_material);
+                    $('#error_harga_material').html(response.errors.harga_material);
                   
                 }else{
                    console.log(response); 
@@ -58,8 +59,8 @@ $(document).ready(function(){
                     icon: 'success'
                     });
 
-                    $('#modal_activity').modal('hide');
-                    $("#form-activity")[0].reset();
+                    $('#modal_material').modal('hide');
+                    $("#form-material")[0].reset();
                 }
             }
         })
@@ -70,16 +71,17 @@ $(document).ready(function(){
     $(document).on('click','.edit', function(e){
         e.preventDefault();
         var id = $(this).data('id');
-        $('#modal_edit_activity').modal('show');
+        $('#modal_edit_material').modal('show');
         $.ajax({
             type:"GET",
-            url:"/activity/edit/" + id,
+            url:"/material/edit/" + id,
             success: function(response){
                 if(response.status == 404){
                     console.log("Data not found");
                 }else{
-                    $('#id_kegiatan').val(response.activity.id);
-                    $('#edit_jenis_kegiatan').val(response.activity.jenis_kegiatan);
+                    $('#id_material').val(response.material.id);
+                    $('#edit_jenis_material').val(response.material.jenis_material);
+                    $('#edit_harga_material').val(response.material.harga_material);
                 }
             }
         })
@@ -87,10 +89,12 @@ $(document).ready(function(){
 
    $(document).on('click', '.save', function(e){
         e.preventDefault();
-        var id = $('#id_kegiatan').val();
+        var id = $('#id_material').val();
         var data = {
-            'edit_jenis_kegiatan': $('#edit_jenis_kegiatan').val(),
+            'edit_jenis_material': $('#edit_jenis_material').val(),
+            'edit_harga_material': $('#edit_harga_material').val(),
         }
+
 
         $.ajaxSetup({
             headers: {
@@ -100,7 +104,7 @@ $(document).ready(function(){
 
         $.ajax({
             type:"PUT",
-            url:"/activity/update/"+ id,
+            url:"/material/update/"+ id,
             data: data,
             dataType:"json",
             success: function(response){
@@ -110,7 +114,7 @@ $(document).ready(function(){
                     text: 'Data berhasil disimpan!',
                     icon: 'success'
                 });
-                    $('#modal_edit_activity').modal('hide');
+                    $('#modal_edit_material').modal('hide');
             
             }
         })
@@ -142,7 +146,7 @@ $(document).ready(function(){
             if (result.isConfirmed) {
                 $.ajax({
                     type: "DELETE",
-                    url: "/activity/delete/" + id,
+                    url: "/material/delete/" + id,
                    
                     success: function(){
                         table.draw();

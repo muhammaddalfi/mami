@@ -1,4 +1,4 @@
-<div id="modal_marketer" class="modal fade" tabindex="-1">
+<div id="modal_pengguna" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -40,7 +40,8 @@
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">Role</label>
-                                <select multiple ="multiple" class="form-control role" name="role[]" id="role">
+                                <select data-placeholder="Pilih Role" class="form-control role" name="role"
+                                    id="role">
                                     <option></option>
                                     @foreach ($role as $item)
                                         <option value="{{ $item->id }}"> {{ $item->name }}
@@ -49,6 +50,21 @@
                                 </select>
                                 <span id="error_role" class="text-danger"></span>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="col-sm-6">
+                            <label class="form-label">Perusahaan</label>
+                            <select class="form-control mitra_id" name="mitra_id" id="mitra_id" data-fouc>
+                                <option></option>
+                                @foreach ($mitra as $item)
+                                    <option value="{{ $item->id }}"> {{ $item->nama_perusahaan }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                            <span id="error_mitra_id" class="text-danger"></span>
                         </div>
                     </div>
 

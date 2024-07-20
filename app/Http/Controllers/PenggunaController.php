@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Perusahaans;
 use App\Models\Pivotmarketer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,16 +12,16 @@ use Yajra\DataTables\DataTables;
 
 class PenggunaController extends Controller
 {
-    //
 
     public function index(){
+        $data['mitra'] = Perusahaans::all();
         $data['role'] = Role::all();
         return view('pengguna.index', $data);
     }
 
     public function fetch()
     {
-        $user = User::all();
+        $user = User::with('mitra')->get();
         return DataTables::of($user)
             ->addIndexColumn()
             ->addColumn('role', function ($data) {
@@ -30,7 +31,7 @@ class PenggunaController extends Controller
                 })
             ->addColumn('action', function ($user) {
                 return '
-                <a href="'. url('/pengguna/edit',$user->id).'" class="btn btn-outline-primary btn-icon ml-2"><i class="ph-pencil-simple"></i></a>
+                <a href="javascript:void(0)" class="btn btn-outline-primary btn-icon ml-2 edit" data-id="' . $user->id . '"><i class="ph-pencil-simple"></i></a>
                 <a href="javascript:void(0)" class="btn btn-outline-danger btn-icon ml-2 delete" data-id="' . $user->id . '"><i class="ph-trash"></i></a>';
             })
             ->rawColumns(['action','role'])
@@ -44,6 +45,7 @@ class PenggunaController extends Controller
             'nama' => 'required',
             'email' => 'required',
             'hp' => 'required',
+            'mitra_id' => 'required',
             'role' => 'required'
         ];
 
@@ -51,7 +53,8 @@ class PenggunaController extends Controller
             'nama.required' => 'Tidak Boleh Kosong',
             'email.required' => 'Tidak Boleh Kosong',
             'hp.required' => 'Tidak Boleh Kosong',
-            'role.required' => 'Tidak Boleh Kosong'
+            'role.required' => 'Tidak Boleh Kosong',
+            'mitra_id.required' => 'Tidak Boleh Kosong'
         ];
 
         $validator = Validator::make($request->all(), $rule, $message);
@@ -69,6 +72,7 @@ class PenggunaController extends Controller
             $ajax->name = $request->input('nama');
             $ajax->email = $request->input('email');
             $ajax->handphone = $request->input('hp');
+            $ajax->mitra_id = $request->input('mitra_id');
             $ajax->password = bcrypt($password);
             $ajax->syncRoles($request->input('role'));
             $ajax->save();
@@ -81,24 +85,21 @@ class PenggunaController extends Controller
 
     public function edit($id)
     {   
+        $user = User::find($id);
+        $roles = Role::latest()->get();
 
-        $users = User::find($id);
-        $role = Role::latest()->get();
-
-        // dd($users);
-        return view('pengguna.edit', compact('users','role'));
-        // if ($users) {
-        //     return response()->json([
-        //         'status' => 200,
-        //         'users' => $users,
-        //         'role' => $role
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         'status' => 404,
-        //         'message' => 'Users not found',
-        //     ]);
-        // }
+         if ($user) {
+            return response()->json([
+                'status' => 200,
+                'users' => $user,
+                'role' => $roles
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Users not found',
+            ]);
+        }
     }
 
      public function update(Request $request, $id)
@@ -113,7 +114,7 @@ class PenggunaController extends Controller
         $message = [
             'edit_nama_pengguna.required' => 'Tidak Boleh Kosong',
             'edit_email_pengguna.required' => 'Tidak Boleh Kosong',
-            'edit_hp_pengguna.required' => 'Tidak Boleh Kosong',
+            'edit_hp_pengguna.required' => 'Tidak Boleh Kosong'
         ];
 
         $validator = Validator::make($request->all(), $rule, $message);
@@ -130,30 +131,23 @@ class PenggunaController extends Controller
                 $user->email = $request->input('edit_email_pengguna');
                 $user->handphone = $request->input('edit_hp_pengguna');
                 $user->status = $request->input('edit_status');
-                $user->syncRoles($request->input('edit_role'));
                 $user->update();
 
-                return redirect('pengguna')->with('status', 'Data berhasil ditambahkan!');
-                // return response()->json([
-                //     'status' => 200,
-                //     'message' => 'Data updated successfully',
-                // ]);
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data updated successfully',
+                ]);
             } else {
                 $user = User::find($id);
                 $user->name = $request->input('edit_nama');
                 $user->email = $request->input('edit_email');
                 $user->handphone = $request->input('edit_handphone');
-                $user->syncRoles($request->input('edit_role'));
-                $user->jenis_pengguna = $request->input('edit_jenis_pengguna');
-                $user->nama_perusahaan = $request->input('edit_nama_perusahaan');
-                $user->nama_upline = $request->input('edit_nama_upline');
                 $user->password = bcrypt($request->input('edit_password'));
                 $user->update();
-                return redirect('pengguna')->with('status', 'Data berhasil ditambahkan!');
-                // return response()->json([
-                //     'status' => 200,
-                //     'message' => 'Data updated successfully',
-                // ]);
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data updated successfully',
+                ]);
             }
         }
     }

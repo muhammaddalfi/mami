@@ -43,20 +43,6 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <div class="col-sm-6">
-                        <label class="form-label">Role</label>
-                        <select multiple ="multiple" class="form-control edit_role" name="edit_role[]" id="edit_role">
-                            <option></option>
-                            @foreach ($role as $item)
-                                <option value="{{ $item->id }}"> {{ $item->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span id="error_role" class="text-danger"></span>
-                    </div>
-                </div>
-
             </div>
 
             <div class="modal-footer">
