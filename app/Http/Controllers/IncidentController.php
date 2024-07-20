@@ -18,8 +18,13 @@ class IncidentController extends Controller
     //
     public function home()
     {
+        if(Auth::user()->hasRole('Admin')){
+        $data['basecamp'] = Basecamps::with('perusahaan')->get();
+        }
+        if(Auth::user()->hasRole('Mitra')){
         $data['basecamp'] = Basecamps::with('perusahaan')
                             ->where('mitra_id',auth()->user()->mitra_id)->get();
+        }
         $data['material'] = Materials::all();
         return view('incident.index', $data);
     }

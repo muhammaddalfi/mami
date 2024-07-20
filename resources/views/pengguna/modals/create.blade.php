@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form id="form-marketer" action="#">
+            <form id="form-pengguna" action="#">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">

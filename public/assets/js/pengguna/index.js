@@ -53,7 +53,7 @@ $(document).ready(function(){
 
     
 
-    var marketers = $('#form-marketer')[0];
+    var marketers = $('#form-pengguna')[0];
     $('#save').on('click',function(e){
         e.preventDefault();
         var form  = new FormData(marketers);
@@ -83,8 +83,8 @@ $(document).ready(function(){
                     icon: 'success'
                     });
 
-                    $('#modal_marketer').modal('hide');
-                    $("#form-marketer")[0].reset();
+                    $('#modal_pengguna').modal('hide');
+                    $("#form-pengguna")[0].reset();
                 }
             }
         })
