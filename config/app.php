@@ -190,6 +190,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Image' => 'Intervention\Image\Facades\Image',
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Rupiah' => App\Helpers\Rupiah::class,
     ])->toArray(),
 
 ];

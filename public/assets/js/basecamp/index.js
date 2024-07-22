@@ -6,7 +6,7 @@ $(document).ready(function(){
     });
 
     $('.edit_mitra_id').select2({
-        dropdownParent: $('#modal_basecamp'),
+        dropdownParent: $('#modal_edit_basecamp'),
         allowClear: true,
         placeholder: 'Pilih'
     });
@@ -103,7 +103,7 @@ $(document).ready(function(){
         var id = $('#id_basecamp').val();
         var data = {
             'edit_nama_basecamp': $('#edit_nama_basecamp').val(),
-            'edit_mitra_id': $('#edit_nama_basecamp').val()
+            'edit_mitra_id': $('#edit_mitra_id').val()
         }
 
 

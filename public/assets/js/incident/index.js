@@ -100,7 +100,8 @@ $(document).ready(function () {
                     let tanggal = moment(response.incident.tgl_incident).format('DD-MM-YYYY');
                     let tanggal_input = moment(response.incident.created_at).format('DD-MM-YYYY');
                     let total = ((response.incident.jumlah_material) * (response.incident.material.harga_material));
-                
+                    let rupiahFormat = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    
                     $('#view_tanggal_incident').html(tanggal);
                     $('#view_no_incident').html(response.incident.no_incident);
                     $('#view_nama_incident').html(response.incident.nama_incident);
@@ -109,7 +110,7 @@ $(document).ready(function () {
                     $('#view_mitra').html(response.incident.user.name);
                     $('#view_jenis_material').html(response.incident.material.jenis_material);
                     $('#view_jumlah_material').html(response.incident.jumlah_material);
-                    $('#view_total_harga').html(total);
+                    $('#view_total_harga').html('Rp. '+ rupiahFormat);
                     $('#view_tanggal_input_data').html(tanggal_input);
 
                     $('#gambar_foto').attr("src", "storage/files/" + response.incident.gambar);

@@ -83,7 +83,6 @@ class MaterialController extends Controller
         
         return DataTables::of($material)
             ->addIndexColumn()
-            
             ->addColumn('action', function ($material) {
                 return '<a href="javascript:void(0)" class="btn btn-outline-primary btn-icon ml-2 edit" data-id="' . $material->id . '"><i class="ph-pencil-simple"></i></a>
                 <a href="javascript:void(0)" class="btn btn-outline-danger btn-icon ml-2 delete" data-id="' . $material->id . '"><i class="ph-trash"></i></a>';

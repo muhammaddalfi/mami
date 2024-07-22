@@ -67,13 +67,6 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::delete('/perusahaan/delete/{id}', [PerusahaanController::class, 'destroy']);
     Route::get('/perusahaan/show/{id}', [PerusahaanController::class, 'show']);
 
-    Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna.dashboard');
-    Route::post('/pengguna/store', [PenggunaController::class, 'store']);
-    Route::get('/pengguna/fetch', [PenggunaController::class, 'fetch']);
-    Route::get('/pengguna/edit/{id}', [PenggunaController::class,'edit']);
-    Route::put('/pengguna/update/{id}', [PenggunaController::class,'update']);
-    Route::delete('/pengguna/delete/{id}', [PenggunaController::class, 'destroy']);
-
     Route::get('/role', [RoleController::class, 'index'])->name('role.index');
     Route::get('/role/create', [RoleController::class, 'create'])->name('role.create');
     Route::get('/role/fetch', [RoleController::class, 'fetch']);
@@ -108,6 +101,15 @@ Route::group(['middleware' => ['permission:Laporan permission']], function () {
     Route::get('/laporan/show/{id}', [LaporanIncident::class, 'show']);
     Route::get('/laporan/search', [LaporanIncident::class, 'search'])->name('laporan.search');
 
+});
+
+Route::group(['middleware' => ['permission:Pengguna permission']], function(){
+    Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna.dashboard');
+    Route::post('/pengguna/store', [PenggunaController::class, 'store']);
+    Route::get('/pengguna/fetch', [PenggunaController::class, 'fetch']);
+    Route::get('/pengguna/edit/{id}', [PenggunaController::class,'edit']);
+    Route::put('/pengguna/update/{id}', [PenggunaController::class,'update']);
+    Route::delete('/pengguna/delete/{id}', [PenggunaController::class, 'destroy']);
 });
 
 

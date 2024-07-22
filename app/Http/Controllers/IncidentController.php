@@ -95,12 +95,15 @@ class IncidentController extends Controller
     {
      
         if(Auth::user()->hasRole('Admin')){
-            $incident = Incidents::with(['user', 'basecamp','material'])->get();
+            $incident = Incidents::with(['user', 'basecamp','material'])
+                            ->orderBy('id', 'desc')->get();
         }
 
         if(Auth::user()->hasRole('Mitra')){
             $incident = Incidents::with(['user', 'basecamp','material'])
-                        ->where('user_id',Auth()->user()->id)->get();
+                        ->where('user_id',Auth()->user()->id)
+                        ->orderBy('id', 'desc')
+                            ->get();
         }
 
         return DataTables::of($incident)

@@ -6,6 +6,7 @@ use App\Models\Perusahaans;
 use App\Models\Pivotmarketer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
@@ -21,7 +22,18 @@ class PenggunaController extends Controller
 
     public function fetch()
     {
-        $user = User::with('mitra')->get();
+        if(Auth::user()->hasRole('Admin')){
+        $user = User::with('mitra')
+                            ->get();
+        }
+
+
+        if(Auth::user()->hasRole('Mitra')){
+        $user = User::with('mitra')
+                            ->where('id',auth()->user()->id)->get();
+        }
+
+       
         return DataTables::of($user)
             ->addIndexColumn()
             ->addColumn('role', function ($data) {
@@ -30,9 +42,14 @@ class PenggunaController extends Controller
                     })->implode(' ');
                 })
             ->addColumn('action', function ($user) {
-                return '
-                <a href="javascript:void(0)" class="btn btn-outline-primary btn-icon ml-2 edit" data-id="' . $user->id . '"><i class="ph-pencil-simple"></i></a>
-                <a href="javascript:void(0)" class="btn btn-outline-danger btn-icon ml-2 delete" data-id="' . $user->id . '"><i class="ph-trash"></i></a>';
+                if(Auth::user()->hasRole('Admin')){
+                    return '<a href="javascript:void(0)" class="btn btn-outline-primary btn-icon ml-2 edit" data-id="' . $user->id . '"><i class="ph-pencil-simple"></i></a>
+                    <a href="javascript:void(0)" class="btn btn-outline-danger btn-icon ml-2 delete" data-id="' . $user->id . '"><i class="ph-trash"></i></a>';
+                }
+                 if(Auth::user()->hasRole('Mitra')){
+                    return '<a href="javascript:void(0)" class="btn btn-outline-primary btn-icon ml-2 edit" data-id="' . $user->id . '"><i class="ph-pencil-simple"></i></a>';
+                }
+                
             })
             ->rawColumns(['action','role'])
             ->make(true);
@@ -108,7 +125,7 @@ class PenggunaController extends Controller
          $rule = [
             'edit_nama_pengguna' => 'required',
             'edit_email_pengguna' => 'required',
-            'edit_hp_pengguna' => 'required',
+            'edit_hp_pengguna' => 'required'
         ];
 
         $message = [
@@ -130,7 +147,6 @@ class PenggunaController extends Controller
                 $user->name = $request->input('edit_nama_pengguna');
                 $user->email = $request->input('edit_email_pengguna');
                 $user->handphone = $request->input('edit_hp_pengguna');
-                $user->status = $request->input('edit_status');
                 $user->update();
 
                 return response()->json([
@@ -139,10 +155,10 @@ class PenggunaController extends Controller
                 ]);
             } else {
                 $user = User::find($id);
-                $user->name = $request->input('edit_nama');
-                $user->email = $request->input('edit_email');
-                $user->handphone = $request->input('edit_handphone');
-                $user->password = bcrypt($request->input('edit_password'));
+                $user->name = $request->input('edit_nama_pengguna');
+                $user->email = $request->input('edit_email_pengguna');
+                $user->handphone = $request->input('edit_hp_pengguna');
+                $user->password = bcrypt($request->input('edit_password_pengguna'));
                 $user->update();
                 return response()->json([
                     'status' => 200,

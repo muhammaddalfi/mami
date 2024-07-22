@@ -68,13 +68,6 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('pengguna.dashboard') }}" class="nav-link">
-                            <i class="ph-user-plus"></i>
-                            <span>Tambah Pengguna</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
                         <a href="{{ route('permission.index') }}" class="nav-link">
                             <i class="ph-lock"></i>
                             <span>Permission</span>
@@ -94,6 +87,15 @@
                         <a href="{{ route('laporan.index') }}" class="nav-link">
                             <i class="ph-file-xls"></i>
                             <span>Laporan</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('Pengguna permission')
+                    <li class="nav-item">
+                        <a href="{{ route('pengguna.dashboard') }}" class="nav-link">
+                            <i class="ph-user-plus"></i>
+                            <span>Pengguna</span>
                         </a>
                     </li>
                 @endcan

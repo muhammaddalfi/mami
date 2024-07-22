@@ -107,7 +107,7 @@ $(document).ready(function(){
                     $('#edit_nama_pengguna').val(response.users.name);
                     $('#edit_email_pengguna').val(response.users.email);
                     $('#edit_hp_pengguna').val(response.users.handphone);
-                    $('#edit_role').val(response.role.name).change();
+                    // $('#edit_role').val(response.role.name).change();
                 }
             }
         })
@@ -120,10 +120,9 @@ $(document).ready(function(){
             'edit_nama_pengguna': $('#edit_nama_pengguna').val(),
             'edit_email_pengguna': $('#edit_email_pengguna').val(),
             'edit_hp_pengguna': $('#edit_hp_pengguna').val(),
-            'edit_role': $('#edit_role').val()
+            'edit_password_pengguna': $('#edit_password_pengguna').val()
         }
 
-        // console.log(data);
 
         $.ajaxSetup({
             headers: {
@@ -136,7 +135,7 @@ $(document).ready(function(){
             url:"/pengguna/update/"+ id,
             data: data,
             dataType:"json",
-
+            
             success: function(response){
                 console.log(response);
                 if(response.status == 400){
@@ -144,6 +143,7 @@ $(document).ready(function(){
                     $('#error_edit_nama_pengguna').html(response.errors.edit_nama_pengguna);
                     $('#error_edit_email_pengguna').html(response.errors.edit_email_pengguna);
                     $('#error_edit_hp_pengguna').html(response.errors.edit_hp_pengguna);
+                    $('#error_edit_password_pengguna').html(response.errors.edit_password_pengguna);
 
                     Swal.fire({
                         title: 'Gagal!',
